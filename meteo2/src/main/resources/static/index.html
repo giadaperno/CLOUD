@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open-Meteo Forecast</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #333; }
+        .controls { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; gap: 10px; }
+        select, button { padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
+        button { background-color: #007bff; color: white; cursor: pointer; border: none; }
+        button:hover { background-color: #0056b3; }
+        canvas { border: 1px solid #eee; border-radius: 4px; margin-top: 20px; }
+        .error { color: red; text-align: center; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Previsioni Meteo</h1>
+
+        <div class="controls">
+            <select id="citySelect">
+                <option value="">Seleziona una città</option>
+                <option value="45.0703,7.6868">Torino</option>
+                <option value="41.9028,12.4964">Roma</option>
+                <option value="45.4642,9.1900">Milano</option>
+                <option value="40.8518,14.2681">Napoli</option>
+                <option value="43.7696,11.2558">Firenze</option>
+            </select>
+            <button id="getWeatherBtn">Ottieni Meteo</button>
+        </div>
+
+        <div id="loading" style="text-align: center; display: none;">Caricamento...</div>
+        <div id="error" class="error" style="display: none;"></div>
+
+        <canvas id="weatherChart"></canvas>
+    </div>
+
+    <script>
+        const citySelect = document.getElementById('citySelect');
+        const getWeatherBtn = document.getElementById('getWeatherBtn');
+        const weatherChartCanvas = document.getElementById('weatherChart');
+        const loadingDiv = document.getElementById('loading');
+        const errorDiv = document.getElementById('error');
+        let weatherChart;
+
+        getWeatherBtn.addEventListener('click', fetchWeather);
+
+        async function fetchWeather() {
+            const selectedCity = citySelect.value;
+            if (!selectedCity) {
+                alert('Seleziona una città prima di ottenere il meteo.');
+                return;
+            }
+
+            const [lat, lon] = selectedCity.split(',');
+            
+            loadingDiv.style.display = 'block';
+            errorDiv.style.display = 'none';
+
+            try {
+                const response = await fetch(`/api/weather/forecast?lat=${lat}&lon=${lon}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                displayChart(data);
+            } catch (error) {
+                console.error('Errore durante il recupero dei dati:', error);
+                errorDiv.textContent = 'Errore durante il recupero dei dati. Riprova più tardi.';
+                errorDiv.style.display = 'block';
+            } finally {
+                loadingDiv.style.display = 'none';
+            }
+        }
+
+        function displayChart(data) {
+            const dates = data.daily.time.map(date => new Date(date).toLocaleDateString('it-IT', { weekday: 'short', month: 'numeric', day: 'numeric' }));
+            const maxTemps = data.daily.temperature_2m_max;
+            const minTemps = data.daily.temperature_2m_min;
+
+            if (weatherChart) {
+                weatherChart.destroy(); // Distrugge la chart esistente prima di crearne una nuova
+            }
+
+            weatherChart = new Chart(weatherChartCanvas, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [
+                        {
+                            label: 'Temperatura Max (°C)',
+                            data: maxTemps,
+                            borderColor: 'rgb(255, 99, 132)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            tension: 0.3,
+                            fill: false
+                        },
+                        {
+                            label: 'Temperatura Min (°C)',
+                            data: minTemps,
+                            borderColor: 'rgb(54, 162, 235)',
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            tension: 0.3,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Previsioni Temperature Settimanali'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'Temperatura (°C)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Data'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
