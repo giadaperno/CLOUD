@@ -1,108 +1,139 @@
-# Open-Meteo Italia
+# Meteo App
 
-Open-Meteo Italia è una semplice applicazione web che ti permette di vedere le previsioni meteo settimanali per molte città italiane. Basta scegliere la città dall’elenco e visualizzerai subito le temperature massime e minime previste, anche in formato grafico.
-
----
-
-## Come funziona?
-
-1. **Scegli una città** dall’elenco nella pagina principale.
-2. **Visualizza le previsioni**: vedrai subito un grafico con le temperature massime e minime della settimana.
-3. **Nessuna registrazione richiesta**: puoi usare l’app liberamente dal tuo browser.
+Applicazione web per consultare le previsioni meteo settimanali di molte città italiane, con grafico interattivo.
 
 ---
 
-## Requisiti
+## 📂 Requisiti
 
-- Docker Desktop (per il metodo facile)
-- Oppure: Java 17+ e Maven (per il metodo tecnico)
-- Sistema operativo: Windows, macOS o Linux
-
-## Come si usa?
-
-### Metodo FACILE (passo per passo)
-
-1. **Scarica e installa Docker Desktop**  
-   - Vai su [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)  
-   - Scarica la versione per il tuo computer (Windows, Mac, Linux)  
-   - Installa Docker seguendo le istruzioni sul sito
-
-2. **Scarica questo progetto**  
-   - **Metodo 1: Download ZIP**  
-     - Premi il pulsante verde “Code” in alto su questa pagina e scegli “Download ZIP”  
-     - Estrai la cartella dove vuoi sul tuo computer  
-   - **Metodo 2: Clona la repository (consigliato se sai usare Git)**  
-     - Apri il terminale  
-     - Vai nella cartella dove vuoi salvare il progetto  
-     - Scrivi:
-       ```sh
-       git clone https://github.com/giadaperno/CLOUD.git
-
-3. **Apri la cartella del progetto**  
-   - Vai nella cartella che hai appena estratto (o appena clonata)
-
-4. **Avvia l’applicazione**  
-   - Cerca un file chiamato `docker-compose.yml`  
-   - Clicca con il tasto destro nella cartella e scegli “Apri nel terminale”  
-   - Scrivi questo comando e premi INVIO:
-     ```sh
-     docker-compose up --build
-     ```
-
-5. **Guarda il meteo!**  
-   - Apri il browser (Chrome, Firefox, Edge, Safari…)  
-   - Vai su http://localhost:8080 
-   - Scegli una città e guarda le previsioni!
+- **Java 17+**
+- **Maven 3.x**
+- **Docker Engine** (o Docker Desktop)
 
 ---
 
-## Metodo per utenti tecnici (passaggi dettagliati)
+## 🚦 Guida passo-passo per avviare l’app Meteo su un altro PC
 
-## Tecnologie utilizzate
-- Backend: Spring Boot (Java)
-- Frontend: HTML/CSS/JavaScript
-- API Meteo: Open-Meteo (https://open-meteo.com/)
-- Docker per il deployment locale
+### 1. Scarica il progetto
 
-1. **Assicurati di avere Java 17+ e Maven installati**
-   - Per verificare, apri il terminale e digita:
-     ```sh
-     java -version
-     mvn -version
-     ```
-   - Se non sono installati, segui le guide ufficiali per la tua piattaforma.
+**Con Git:**
+```sh
+git clone https://github.com/giadaperno/CLOUD.git
+cd CLOUD
+```
+**Oppure:**
+- Scarica il progetto come ZIP da GitHub
+- Estrai la cartella dove preferisci
 
-2. **Clona la repository**
-   - Apri il terminale nella cartella dove vuoi scaricare il progetto.
-   - Esegui:
-     ```sh
-     git clone https://github.com/giadaperno/CLOUD.git
-     ```
+---
 
-3. **Vai nella cartella del progetto**
+### 2. (Facoltativo) Compila il progetto Java
+
+Se vuoi ricostruire il file `.jar`:
+
+- **Su Windows:**
    ```sh
-   cd meteo2
+  cd meteo2
    ```
 
-4. **Costruisci il progetto**
    ```sh
-   ./mvnw clean package -DskipTests
+  mvnw.cmd clean package -DskipTests
    ```
-   - Se sei su Windows, usa `mvnw.cmd` invece di `./mvnw`.
-
-5. **Avvia l’applicazione**
+- **Su Mac/Linux:**
    ```sh
-   java -jar target/open-meteo-0.0.1-SNAPSHOT.jar
+  cd meteo2
    ```
 
-6. **Apri il browser**
-   - Vai su http://localhost:8080
+   ```sh
+  ./mvnw clean package -DskipTests
+   ```
 
 ---
 
-## Linguaggio semplice e diretto
+### 3. Avvia l’applicazione con Docker
 
-- Non serve essere esperti di informatica: basta seguire i passaggi sopra per vedere il meteo!
-- Se sei uno sviluppatore, puoi esplorare il codice nella cartella `src/main/java` e personalizzare l’applicazione come preferisci.
-- L’interfaccia è moderna, chiara e funziona su computer, tablet e smartphone.
+Assicurati che Docker sia avviato.
 
+Poi, nella cartella del progetto, esegui:
+
+```sh
+docker build -t meteo2:multi .
+docker run -p 8080:8080 meteo2:multi
+```
+- Il primo comando costruisce l’immagine Docker ottimizzata.
+- Il secondo comando avvia il container e collega la porta 8080 del tuo PC all’applicazione.
+
+---
+
+### 4. Apri l’applicazione nel browser
+
+Vai su:  
+http://localhost:8080
+
+#### Cosa troverai nella pagina:
+
+- **Un menu a tendina**  
+  Scegli la città italiana che preferisci tra le più importanti (es: Torino, Milano, Roma, Napoli, ecc.).
+
+- **Un pulsante “Mostra grafico”**  
+  Dopo aver selezionato la città, clicca sul pulsante per vedere le previsioni.
+
+- **Un grafico interattivo**  
+  Verrà visualizzato un grafico a linee che mostra le temperature massime e minime previste per la settimana.
+
+- **Messaggi di caricamento e di errore**  
+  Se i dati sono in caricamento o c’è un problema di rete, vedrai un messaggio chiaro.
+
+- **Design moderno e responsive**  
+  L’interfaccia si adatta automaticamente a PC, tablet e smartphone.
+
+- **Icona meteo animata**  
+  In alto nella pagina troverai una simpatica icona animata che rende l’esperienza più piacevole.
+
+---
+
+**Esempio di utilizzo:**
+1. Seleziona “Milano” dal menu.
+2. Clicca su “Mostra grafico”.
+3. Guarda il grafico delle temperature della settimana per Milano!
+
+---
+
+## 🛑 Come fermare l’app
+
+Nel terminale dove hai lanciato Docker, premi **CTRL+C**.
+
+Per rimuovere il container (opzionale):
+
+1. Guarda l’ID del container:
+   ```sh
+   docker ps
+   ```
+2. Ferma il container:
+   ```sh
+   docker stop <container_id>
+   ```
+3. Rimuovi il container:
+   ```sh
+   docker rm <container_id>
+   ```
+
+---
+
+## 🔎 File principali del progetto
+
+- **MeteoController.java**: gestisce le richieste HTTP e restituisce dati/grafici.
+- **ExternalApiServiceImpl.java**: si occupa delle chiamate all’API Open-Meteo.
+- **meteo.html**: interfaccia utente web.
+- **application.properties**: configurazione dell’API e delle impostazioni dell’app.
+- **docker-compose.yml**: avvio semplificato con Docker Compose.
+
+---
+
+## ℹ️ Problemi comuni
+
+- **Porta 8080 occupata**: chiudi altri programmi che la usano o modifica la porta in `docker-compose.yml`.
+- **Permessi Docker/Maven**: su Windows esegui il terminale come amministratore.
+- **Errore “jar mancante”**: assicurati che la cartella `target/` contenga il file `.jar` (compila con Maven se serve).
+
+---
