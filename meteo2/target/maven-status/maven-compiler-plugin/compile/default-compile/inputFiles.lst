@@ -1,0 +1,5 @@
+/workspaces/java-2/meteo2/src/main/java/com/perno/openmeteo/OpenMeteoApplication.java
+/workspaces/java-2/meteo2/src/main/java/com/perno/openmeteo/controller/WeatherController.java
+/workspaces/java-2/meteo2/src/main/java/com/perno/openmeteo/model/Daily.java
+/workspaces/java-2/meteo2/src/main/java/com/perno/openmeteo/model/OpenMeteoResponse.java
+/workspaces/java-2/meteo2/src/main/java/com/perno/openmeteo/service/WeatherService.java

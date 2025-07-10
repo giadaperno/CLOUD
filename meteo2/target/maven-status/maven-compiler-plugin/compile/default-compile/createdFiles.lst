@@ -1,0 +1,6 @@
+com/perno/openmeteo/controller/WeatherController.class
+com/perno/openmeteo/model/OpenMeteoResponse.class
+com/perno/openmeteo/service/WeatherService.class
+com/perno/openmeteo/model/OpenMeteoResponse$DailyUnits.class
+com/perno/openmeteo/model/Daily.class
+com/perno/openmeteo/OpenMeteoApplication.class
