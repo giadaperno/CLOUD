@@ -19,6 +19,9 @@ Applicazione web per consultare le previsioni meteo settimanali di molte città 
 **Con Git:**
 ```sh
 git clone https://github.com/giadaperno/CLOUD.git
+```
+
+```sh
 cd CLOUD
 ```
 **Oppure:**
@@ -30,22 +33,8 @@ cd CLOUD
 ### 2. (Facoltativo) Compila il progetto Java
 
 Se vuoi ricostruire il file `.jar`:
-
-- **Su Windows:**
    ```sh
   cd meteo2
-   ```
-
-   ```sh
-  mvnw.cmd clean package -DskipTests
-   ```
-- **Su Mac/Linux:**
-   ```sh
-  cd meteo2
-   ```
-
-   ```sh
-  ./mvnw clean package -DskipTests
    ```
 
 ---
@@ -57,8 +46,11 @@ Assicurati che Docker sia avviato.
 Poi, nella cartella del progetto, esegui:
 
 ```sh
-docker build -t meteo2:multi .
-docker run -p 8080:8080 meteo2:multi
+docker build -t meteo2:latest .
+```
+
+```sh
+docker run -p 8080:8080 meteo2:latest
 ```
 - Il primo comando costruisce l’immagine Docker ottimizzata.
 - Il secondo comando avvia il container e collega la porta 8080 del tuo PC all’applicazione.
